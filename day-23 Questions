@@ -1,0 +1,139 @@
+Imagine you have a row of treasure chests, each containing a certain amount of gold coins. 
+However, some chests might contain the same amount of gold as others.
+
+Your goal is to find a sequence of consecutive chests where no two chests have the same amount
+of gold. Once you identify such a sequence, you must collect the maximum possible gold from one
+of these unique sets.
+
+Find the highest amount of gold you can gather by picking exactly one such sequence of chests 
+and collecting all the coins inside.
+
+Input Format:
+-------------
+Line-1: An integer N, representing the Total number of treasure chest .
+Line-2: Space-separated integers, representing the amount of gold in each treasure chest.
+
+Output Format:
+--------------
+Line-1: A single integer, representisxxng the maximum sum of a contiguous subarray with all 
+unique elements.
+
+Sample Input-1:
+---------------
+5  
+4 2 4 5 6  
+
+Sample Output-1:
+----------------
+17
+
+Explanation:
+-------------
+The longest unique maximum gold is [2, 4, 5, 6] with a sum of 2 + 4 + 5 + 6 = 17.
+This is the maximum possible sum that can be obtained.
+
+
+Sample Input-2:
+---------------
+6  
+1 2 3 1 2 3  
+
+Sample Output-2:
+----------------
+6
+
+
+Explanation:
+------------
+The longest unique maximum gold is [1, 2, 3] with a sum of 1 + 2 + 3 = 6.
+This sum cannot be improved by choosing another unique subarray.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+DecodeKString
+
+
+In a world where encoded messages are sent secretly, your task is to decode them. 
+The encoding follows a specific pattern:
+
+You are given a string s that consists of lowercase English letters and encoded segments. 
+The encoded segments follow this rule:
+
+k[encodedString] where encodedString is a sequence of lowercase English letters enclosed in square brackets, 
+and k is a positive integer indicating how many times the encodedString should be repeated.
+
+
+You need to implement a function that takes this encoded string as input and returns the fully decoded version of it.
+
+Input
+A single string s, where s consists of digits, square brackets [ ]././, and lowercase English letters.?
+
+Output
+Return a string that represents the decoded message.
+
+Examples
+Example 1:
+Input = 1[b]
+Output = b
+
+Example 2:
+Input = 3[b2[ca]]
+Output = bcacabcacabcaca
+
+
+Explanation:
+Inner substring 2[ca] breakdown into caca.
+it becomes 3[bcaca]
+3[bcaca] becomes bcacabcacabcaca which is final result
+
+Example 3:
+Input = 2[abc]3[cd]ef
+Output = abcabccdcdcdef
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Given a positive integer n, you can apply one of the following operations:
+
+If n is even, replace n with n / 2.
+If n is odd, replace n with either n + 1 or n-1 .
+Return the minimum number of operations needed for n to become 1.
+
+Example 1:
+Input:8
+Output: 3
+Explanation: 8 -> 4 -> 2 -> 1
+
+Example 2:
+Input:7
+Output: 4
+Explanation: 7 -> 8 -> 4 -> 2 -> 1
+or 7 -> 6 -> 3 -> 2 -> 1
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Binarycode
+
+Given a binary string s and an integer k, 
+return true if every binary code of length k is a substring of s. Otherwise, return false.
+
+Example 1:
+Input:00110110
+2
+Output: true
+Explanation: The binary codes of length 2 are "00", "01", "10" and "11".
+They can be all found as substrings at indices 0, 1, 3 and 2 respectively.
+Example 2:
+
+Input:0110
+1
+Output: true
+Explanation: The binary codes of length 1 are "0" and "1", it is clear that both exist as a substring. 
+Example 3:
+
+Input:0110
+2
+Output: false
+Explanation: The binary code "00" is of length 2 and does not exist in the array.
+ 
+
+Constraints:
+
+1 <= s.length <= 5 * 105
+s[i] is either '0' or '1'.
+1 <= k <= 20
