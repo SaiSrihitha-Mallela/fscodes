@@ -280,3 +280,315 @@ select MAX(sal) as HighestPay , MIN(sal) as LowestPay
 from emp
 where deptno = 20 or  deptno = 40;
 ---------------------------------------------------------------------------------------------------------------------------
+/* Find employees who earn more than the average salary of all employees.
+
+Expected Output Columns:
+------------------------
++-------+---------+
+| ename | sal     |
++-------+---------+
+
+*/
+USE test;
+
+select * from emp;
+select ename , sal from emp where sal > (select AVG(sal) from emp) ;
+---------------------------------------------------------------------------------------------------------------------------
+/* Find the name and salary of the highest-paid employee.
+
+Expected Output Columns:
+------------------------
++-------+---------+
+| ename | sal     |
++-------+---------+
+
+*/
+USE test;
+
+select ename , sal 
+from emp
+where sal = (select max(sal) from emp);
+
+-------------------------------------------------------------------------------------------------------------------------------
+/* Find employees who earn more than the highest-paid employee in department 10.
+
+Expected Output Columns:
+------------------------
++-------+---------+--------+
+| ename | sal     | deptno |
++-------+---------+--------+
+
+*/
+USE test;
+
+select ename , sal , deptno
+from emp 
+where sal > (select max(sal) from emp where deptno = 10);
+-----------------------------------------------------------------------------------------------------------------------------
+/* Find employees whose salary is higher than the salary of ‘SCOTT’.
+
+Expected Output Columns:
+------------------------
++-------+---------+
+| ename | sal     |
++-------+---------+
+
+*/
+USE test;
+
+select ename , sal 
+from emp 
+where sal > (select sal from emp where ename = "SCOTT");
+----------------------------------------------------------------------------------------------------------------------------------
+/* Find employee who have the same job title as 'FORD'.
+
+Expected Output Columns:
+------------------------
++-------+---------+
+| ename | job     |
++-------+---------+
+
+*/
+USE test;
+
+select ename , job
+from emp 
+where job in (select job from emp where ename = "FORD");
+-------------------------------------------------------------------------------------------------------------------------------
+/* Find departments that have at least one employee earning more than 3000.
+
+Expected Output Columns:
+------------------------
++--------+------------+
+| deptno | dname      |
++--------+------------+
+
+*/
+USE test;
+
+
+
+select * from dept;
+select * from emp;
+ 
+select dept.deptno , dept.dname
+from dept 
+join emp  on dept.deptno = emp.deptno
+where sal > 3000;
+-------------------------------------------------------------------------------------------------------------------------------
+/* Find employees who were hired before all employees in department 30.
+
+Expected Output Columns:
+------------------------
++-------+------------+
+| ename | hiredate   |
++-------+------------+
+
+*/
+USE test;
+
+select ename , hiredate
+from emp
+where hiredate < (select min(hiredate) from emp where deptno = 30);
+-----------------------------------------------------------------------------------------------------------------------------
+/* Find employees who belong to departments located in 'Dallas'.
+
+Expected Output Columns:
+------------------------
++-------+--------+
+| ename | deptno |
++-------+--------+
+
+*/
+USE test;
+
+select emp.ename , emp.deptno
+from emp 
+join dept on dept.deptno = emp.deptno
+where dept.location = "Dallas";
+----------------------------------------------------------------------------------------------------------------------------------
+/* Find the second highest salary from employees.
+
+Expected Output Columns:
+------------------------
++-----------------------+
+| second_highest_salary |
++-----------------------+
+
+*/
+USE test;
+
+select sal as second_highest_salary
+from emp 
+order by sal desc limit 1 offset 1 ;
+------------------------------------------------------------------------------------------------------------------------------
+/* Find employees who have the same manager as ‘BLAKE’.
+
+Expected Output Columns:
+------------------------
++-------+------+
+| ename | mgr  |
++-------+------+
+
+*/
+USE test;
+
+select ename , mgr
+from emp 
+where mgr = (select mgr from emp where ename = "BLAKE") and ename != "BLAKE";
+-------------------------------------------------------------------------------------------------------------------------------
+/* Find employees who belong to a department with no employees.
+
+Expected Output Columns:
+------------------------
++---------+
+| dname   |
++---------+
+
+*/
+USE test;
+
+SELECT d.dname 
+FROM dept d
+LEFT JOIN emp e ON d.deptno = e.deptno
+WHERE e.deptno IS NULL;
+---------------------------------------------------------------------------------------------------------------------------------
+/* Find the department that has the most employees.
+
+Expected Output Columns:
+------------------------
++--------+----------------+
+| deptno | employee_count |
++--------+----------------+
+
+*/
+USE test;
+
+select deptno , count(empno) as employee_count
+from emp
+group by deptno
+order by employee_count desc
+limit 1;
+-----------------------------------------------------------------------------------------------------------------------------
+/* Find the department name where ‘JONES’ works.
+
+Expected Output Columns:
+------------------------
++----------+
+| dname    |
++----------+
+
+*/
+USE test;
+
+select dname
+from dept 
+join emp on dept.deptno = emp.deptno
+where ename = "JONES";
+------------------------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to find employees whose name contains ‘A’.
+
+Expected Output Columns:
+------------------------
++--------+-------+
+| ename  | empno |
++--------+-------+
+
+*/
+USE test;
+
+select ename , empno
+from emp
+where ename like "%A%";
+-------------------------------------------------------------------------------------------------------------------------------
+/* Retrieve employees who have a commission greater than their salary.
+
+Expected Output Columns:
+------------------------
++--------+-------+---------+---------+
+| ename  | empno | sal     | comm    |
++--------+-------+---------+---------+
+
+*/
+USE test;
+
+select ename , empno , sal , comm
+from emp 
+where sal < comm;
+------------------------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to find all employees who do not receive a commission.
+
+Expected Output Columns:
+------------------------
++-------+-------+------+
+| ename | empno | comm |
++-------+-------+------+
+
+*/
+USE test;
+
+select ename , empno , comm
+from emp 
+where comm is NULL or comm = 0.00;
+-----------------------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to count the number of employees who have a manager.
+
+Expected Output Columns:
+------------------------
++------------------------+
+| employees_with_manager |
++------------------------+
+
+*/
+USE test;
+
+select count(ename) as employees_with_manager
+from emp
+where mgr != "NULL";
+----------------------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to find the difference between the highest and second highest salary.
+
+Expected Output Columns:
+------------------------
++-------------------+
+| salary_difference |
++-------------------+
+
+*/
+USE test;
+
+SELECT 
+    (SELECT MAX(sal) FROM emp) - 
+    (SELECT MAX(sal) FROM emp WHERE sal < (SELECT MAX(sal) FROM emp)) 
+    AS salary_difference;
+------------------------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to calculate the average salary and average commission of employees.
+
+Expected Output Columns:
+------------------------
++----------------+--------------------+
+| Average Salary | Average Commission |
++----------------+--------------------+
+
+*/
+USE test;
+
+
+select AVG(sal) as "Average Salary" , AVG(comm) as "Average Commission"
+from emp;
+---------------------------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to calculate the total salary and total commission for all employees.
+
+Expected Output Columns:
+------------------------
++--------------+------------------+
+| Total Salary | Total Commission |
++--------------+------------------+
+
+*/
+USE test;
+
+select sum(sal) as "Total Salary" , sum(comm) as "Total Commission"
+from emp;
+------------------------------------------------------------------------------------------------------------------------------
+
