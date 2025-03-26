@@ -1,3 +1,28 @@
+empno   ename   job     mgr     hiredate        sal     comm    deptno          
+7369    SMITH   CLERK   7902    1993-06-13      800.00  0.00    20              
+7499    ALLEN   SALESMAN        7698    1998-08-15      1600.00 300.00  10      
+7521    ALLEN   SALESMAN        7698    1996-03-26      1250.00 500.00  30      
+7566    JONES   MANAGER 7839    1995-10-31      2975.00 NULL    20              
+7654    MARTIN  SALESMAN        7698    1998-12-05      1250.00 1400.00 40      
+7698    BLAKE   MANAGER 7839    1992-06-11      2850.00 NULL    30              
+7782    CLARK   MANAGER 7839    1993-05-14      2450.00 NULL    10              
+7788    SCOTT   ANALYST 7566    1996-03-05      3000.00 NULL    20              
+7839    KEVIN   PRESIDENT       NULL    1990-06-09      5000.00 0.00    40      
+7844    KEVIN   SALESMAN        7698    1995-06-04      1500.00 0.00    30      
+7876    KEVIN   CLERK   7788    1999-06-04      1100.00 NULL    20              
+7900    JAMES   CLERK   7698    2000-06-23      950.00  NULL    20              
+7902    FORD    ANALYST 7566    1997-12-05      3000.00 NULL    20              
+7934    FORD    CLERK   7782    2000-01-21      1300.00 NULL    10 
+--------------------------------------
+deptno  dname   location                                                        
+10      Accounting      New York                                                
+20      Research        Dallas                                                  
+30      Sales   Chicago                                                         
+40      Operations      Boston                                                  
+50      Finance Tempe  
+
+--------------------------------------------------------------------------------------------------------------------------
+
 /* Retrieve the names and salaries of employees who have the job title "SALESMAN" and earn more than 1500.
 
 Expected Output Columns:
@@ -591,4 +616,374 @@ USE test;
 select sum(sal) as "Total Salary" , sum(comm) as "Total Commission"
 from emp;
 ------------------------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to calculate the average salary of employees with a commission.
+
+Expected Output Columns:
+------------------------
++----------------------+
+| avg_salary_with_comm |
++----------------------+
+
+*/
+USE test;
+
+
+SELECT AVG(sal) AS avg_salary_with_comm
+FROM emp
+WHERE comm IS NOT NULL;
+---------------------------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to determine the minimum commission value, excluding NULLs.
+
+Expected Output Columns:
+------------------------
++----------------+
+| min_commission |
++----------------+
+
+*/
+USE test;
+
+select min(comm) as min_commission
+from emp
+where comm is not null;
+-----------------------------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to find the total commission paid to employees hired after 1995.
+
+Expected Output Columns:
+------------------------/* Write a SQL query to find the maximum hire date (latest hire) in the emp table.
+
+Expected Output Columns:
+------------------------
++-------------+
+| latest_hire |
++-------------+
+
+*/
+USE test;
+
+select max(hiredate) as latest_hire
+from emp;
+----------------------------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to calculate the average salary of employees with a commission.
+
+Expected Output Columns:
+------------------------
++----------------------+
+| avg_salary_with_comm |
++----------------------+
+
+*/
+USE test;
+
+
+SELECT AVG(sal) AS avg_salary_with_comm
+FROM emp
+WHERE comm IS NOT NULL;
+-----------------------------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to determine the minimum commission value, excluding NULLs.
+
+Expected Output Columns:
+------------------------
++----------------+
+| min_commission |
++----------------+
+
+*/
+USE test;
+
+select min(comm) as min_commission
+from emp
+where comm is not null;
+----------------------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to find the total commission paid to employees hired after 1995.
+
+Expected Output Columns:
+------------------------
++----------------------+
+| total_comm_post_1995 |
++----------------------+
+
+*/
+USE test;
+
+select sum(comm) as total_comm_post_1995
+from emp
+where hiredate>1995;
+------------------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to find the maximum hire date (latest hire) in the emp table.
+
+Expected Output Columns:
+------------------------
++-------------+
+| latest_hire |
++-------------+
+
+*/
+USE test;
+
+select max(hiredate) as latest_hire
+from emp;
+----------------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to find the average commission for salesmen, excluding NULLs.
+
+Expected Output Columns:
+------------------------
++-------------------+
+| avg_salesman_comm |
++-------------------+
+
+*/
+USE test;
+
+select avg(comm) as avg_salesman_comm
+from emp
+where job = "SALESMAN" and comm is not null; 
+-------------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to determine the minimum salary for employees hired in the 1990s.
+
+Expected Output Columns:
+------------------------
++----------------+
+| min_salary_90s |
++----------------+
+
+*/
+USE test;
+
+select  min(sal) as min_salary_90s
+from emp
+where hiredate>=1990;
+---------------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to find the total salary of employees whose names start with 'K'.
+
+Expected Output Columns:
+------------------------
++----------------+
+| total_salary_k |
++----------------+
+
+*/
+USE test;
+
+select sum(sal) as total_salary_K
+from emp
+where ename like "K%";
+----------------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to count the number of employees hired in each year.
+
+Expected Output Columns:
+------------------------
++-----------+----------------+
+| hire_year | hires_per_year |
++-----------+----------------+
+
+*/
+USE test;
+
+SELECT YEAR(hiredate) AS hire_year, COUNT(*) AS hires_per_year
+FROM emp
+GROUP BY YEAR(hiredate);
+
+---------------------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to sum the commissions for employees with salaries below 1500.
+
+Expected Output Columns:
+------------------------
++-----------------------+
+| total_comm_low_salary |
++-----------------------+
+
+*/
+USE test;
+
+select sum(comm) as total_comm_low_salary
+from emp
+where sal < 1500;
+
+------------------------------------------------------------------------------------------------------------------
+/* List employees who do not receive a commission but earn more than 2500.
+
+Expected Output Columns:
+------------------------
++-------+---------+------+
+| ename | sal     | comm |
++-------+---------+------+
+
+*/
+USE test;
+
+select ename , sal , comm
+from emp 
+where comm is null and sal>2500;
+-----------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to list employee names and department names for employees 
+with a salary greater than 2000.
+
+
++-------+------------+
+| ename | dname      |
++-------+------------+
+*/
+USE test; 
+
+select emp.ename , dept.dname
+from emp
+join dept on dept.deptno = emp.deptno
+where sal > 2000;
+-------------------------------------------------------------------------------------------------------------
+/*Write a SQL query to retrieve all employees and their department locations, 
+including those without departments.
+
++--------+----------+
+| ename  | location |
++--------+----------+
+*/
+USE test; 
+
+select emp.ename, dept.location
+from emp
+left join dept on dept.deptno = emp.deptno;
+------------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to list all department numbers, department names and their 
+employee counts, including departments with no employees.
+
++--------+------------+-----------+
+| deptno | dname      | emp_count |
++--------+------------+-----------+
+*/
+USE test;
+
+SELECT dept.deptno, dept.dname, COUNT(emp.ename) AS emp_count
+FROM dept
+LEFT JOIN emp ON dept.deptno = emp.deptno
+GROUP BY dept.deptno, dept.dname
+ORDER BY dept.deptno;
+-------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to simulate a FULL OUTER JOIN to list all employees and 
+departments, including unmatched rows.
+
++-------+--------+--------+------------+
+| empno | ename  | deptno | dname      |
++-------+--------+--------+------------+
+*/
+USE test;
+
+SELECT emp.empno, emp.ename, dept.deptno, dept.dname
+FROM emp
+LEFT JOIN dept ON emp.deptno = dept.deptno
+
+UNION
+
+SELECT emp.empno, emp.ename, dept.deptno, dept.dname
+FROM dept
+RIGHT JOIN emp ON emp.deptno = dept.deptno;
+
+
+-----------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to find employees who are managers of other employees.
+
++---------+
+| manager |
++---------+
+*/
+USE test;
+
+SELECT DISTINCT e1.ename AS manager
+FROM emp e1
+WHERE e1.empno IN (SELECT DISTINCT e2.mgr FROM emp e2 WHERE e2.mgr IS NOT NULL);
+
+-----------------------------------------------------------------------------------------------------------------------
+/*Write a SQL query to generate all possible employee-department combinations.
++--------+------------+
+| ename  | dname      |
++--------+------------+
+*/
+USE test;
+
+
+select * from emp;
+
+select * from dept;
+
+---------------------------------------------------------------------------------------------------------------------
+/*Write a SQL query to find managers and the number of employees they manage in
+departments located in 'New York', using the primary key and foreign key 
+constraints.
+
++--------------+-----------+
+| manager_name | emp_count |
++--------------+-----------+
+*/
+
+
+USE test;
+
+SELECT m.ename AS manager_name, COUNT(e.empno) AS emp_count
+FROM emp e
+JOIN emp m ON e.mgr = m.empno  -- Join employees with their managers
+JOIN dept d ON e.deptno = d.deptno  -- Ensure employees belong to the department
+WHERE d.location = 'New York'
+GROUP BY m.ename
+ORDER BY emp_count DESC;
+
+
+----------------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to list all employees and departments, including those 
+without matches, using a simulated FULL JOIN.
+
+
++-------+--------+--------+------------+----------+
+| empno | ename  | deptno | dname      | location |
++-------+--------+--------+------------+----------+
+*/
+
+USE test;
+
+SELECT e.empno, e.ename, d.deptno, d.dname, d.location
+FROM emp e
+LEFT JOIN dept d ON e.deptno = d.deptno
+
+UNION
+
+SELECT e.empno, e.ename, d.deptno, d.dname, d.location
+FROM emp e
+RIGHT JOIN dept d ON e.deptno = d.deptno
+
+
+------------------------------------------------------------------------------------------------------------------------
+/* Write a SQL query to list employee names and department names where the 
+department is in 'Chicago'.
+
++-------+-------+
+| ename | dname |
++-------+-------+
+*/
+
+USE test;
+
+SELECT e.ename, d.dname
+FROM emp e
+JOIN dept d ON e.deptno = d.deptno
+WHERE d.location = 'Chicago'
+ORDER BY e.ename;
+
+------------------------------------------------------------------------------------------------------------------
+/*Retrieve Department-wise Total Salary and Number of Employees 
+
+
++------------+---------------+--------------+
+| dname      | num_employees | total_salary |
++------------+---------------+--------------+
+
+*/
+USE test;
+
+SELECT dept.dname, 
+       COUNT(emp.empno) AS num_employees, 
+       SUM(emp.sal) AS total_salary
+FROM dept
+LEFT JOIN emp ON dept.deptno = emp.deptno
+GROUP BY dept.deptno, dept.dname
+ORDER BY dept.deptno;
+
 
