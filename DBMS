@@ -986,4 +986,221 @@ LEFT JOIN emp ON dept.deptno = emp.deptno
 GROUP BY dept.deptno, dept.dname
 ORDER BY dept.deptno;
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+Customers
+
+Field   Type    Null    Key     Default Extra                                                                           
+CustomerID      int     NO      PRI     NULL                                                                            
+Name    varchar(255)    YES             NULL                                                                            
+Email   varchar(255)    YES             NULL                                                                            
+Address varchar(255)    YES             NULL                                                                            
+PhoneNumber     varchar(20)     YES             NULL 
+
+Employees
+
+Field   Type    Null    Key     Default Extra      
+id      int     NO      PRI     NULL    auto_increment                                                                  
+name    varchar(50)     YES             NULL                                                                            
+age     int     YES             NULL                                                                                    
+department      varchar(50)     YES             NULL                                                                    
+salary  double  YES             NULL    
+
+
+OrderItems
+
+Field   Type    Null    Key     Default Extra                                                                           
+OrderItemID     int     NO      PRI     NULL                                                                            
+OrderID int     YES     MUL     NULL                                                                                    
+ProductID       int     YES     MUL     NULL                                                                            
+Quantity        int     YES             NULL                                                                            
+UnitPrice       decimal(10,2)   YES             NULL 
+
+
+Orders
+
+Field           Type            Null     Key     Default Extra                                                                           
+OrderID         int             NO      PRI     NULL                                                                                    
+CustomerID      int             YES     MUL     NULL                                                                            
+OrderDate       date            YES             NULL                                                                            
+TotalCost       decimal(10,2)   YES             NULL                                                                    
+Status          varchar(20)     YES             NULL 
+
+
+Products
+
+Field           Type            Null    Key     Default Extra                                                                           
+ProductID       int             NO      PRI     NULL                                                                            
+Name            varchar(255)    YES             NULL                                                                            
+Description     varchar(255)    YES             NULL                                                                    
+Price           decimal(10,2)   YES             NULL  
+
+
+indianPeople
+
+Field         Type            Null    Key     Default Extra                                                                           
+name          varchar(100)    YES             NULL                                                                            
+age           int             YES             NULL                                                                                    
+gender        varchar(10)     YES             NULL                                                                            
+phone_number  varchar(15)     YES             NULL                                                                    
+location      varchar(50)     YES             NULL                                                                    
+salary        decimal(10,2)   YES             NULL
+--------------------------------------------------------------------------------------------------------------------------
+/*
+Write a query to List all orders along with product names and their quantity and price:
+
+Sample Output:
+
+| OrderID | ProductName | Quantity | Price |
+|---------|-------------|----------|-------|
+| 1001    | Laptop      | 1        | 1000  |
+
+*/
+use fs;
+
+SELECT o.OrderID,p.Name AS ProductName,oi.Quantity,oi.UnitPrice AS Price
+FROM Orders o
+JOIN OrderItems oi ON o.OrderID = oi.OrderID
+JOIN Products p ON oi.ProductID = p.ProductID
+ORDER BY o.OrderID ASC;
+--------------------------------------------------------------------------------------------------------------------------------
+/*
+Write a query to retrive Customers who ordered more than one type of product in a single order:
+
+Sample Output:
+
+| OrderID | CustomerName | ProductTypes  |
+|---------|--------------|---------------|
+| 1001    | Alice Johnson| 2             |
+
+*/
+use fs;
+
+SELECT 
+    o.OrderID,
+    c.Name AS CustomerName,
+    COUNT(DISTINCT oi.ProductID) AS ProductTypes
+FROM 
+    Orders o
+JOIN 
+    Customers c ON o.CustomerID = c.CustomerID
+JOIN 
+    OrderItems oi ON o.OrderID = oi.OrderID
+GROUP BY 
+    o.OrderID, c.Name
+HAVING 
+    COUNT(DISTINCT oi.ProductID) > 1;
+-------------------------------------------------------------------------------------------------------------------------
+/*
+Write a query to retrive All orders with status 'Delivered':
+
+Sample Output:
+
+| OrderID | CustomerID | OrderDate  | TotalCost | Status     |
+|---------|------------|------------|-----------|------------|
+| 1001    | 1          | 2024-04-01 | 1100      | Delivered  |
+
+*/
+use fs;
+
+select * from Orders where status = "Delivered";
+--------------------------------------------------------------------------------------------------------------------------
+/*
+Write a query to  Product name and the number of times it was ordered:
+
+Sample Output:
+
+| ProductName | TimesOrdered  |
+|-------------|---------------|
+| Laptop      | 2             |
+
+*/
+
+use fs;
+
+SELECT 
+    p.Name AS ProductName,
+    COUNT(oi.ProductID) AS TimesOrdered
+FROM 
+    OrderItems oi
+JOIN 
+    Products p ON oi.ProductID = p.ProductID
+GROUP BY 
+    p.Name;
+----------------------------------------------------------------------------------------------------------------------
+/*Write a query to Count orders placed on each distinct date:
+
+Sample Output:
+
+| OrderDate  | OrdersCount |
+|------------|-------------|
+| 2024-04-01 | 2           |
+
+*/
+
+use fs;
+
+
+select OrderDate , count(orderID) as OrdersCount
+from Orders
+GROUP BY 
+    OrderDate
+----------------------------------------------------------------------------------------------------------------------------
+/*
+Write a query to display Product names with customer names who ordered them:
+
+Sample Output:
+
+| ProductName | CustomerName   |
+|-------------|----------------|
+| Laptop      | Alice Johnson  |
+*/
+use fs;
+
+use fs;
+select distinct Products.Name as ProductName, Customers.Name as CustomerName
+from Customers 
+join Orders on Customers.CustomerID = Orders.CustomerID
+join OrderItems on Orders.OrderID = OrderItems.OrderID
+join Products on OrderItems.ProductID = Products.ProductID;
+
+---------------------------------------------------------------------------------------------------------------------
+/*
+Write a query to display Employee names along with others in the same department:
+
+Sample Output:
+
+| Employee | Colleague | department |
+|----------|-----------|------------|
+| John     | Sarah     | IT         |
+
+*/
+
+use fs;
+----------------------------------------------------------------------------------------------------------------------
+/*
+Write a query to display Customers whose names start with 'A' or 'B':
+
+
+Sample Output:
+
+| CustomerID | Name           | Email               | Phone      |
+|------------|----------------|---------------------|------------|
+| 1          | Alice Johnson  | alice@example.com   | 1234567890 |
+
+*/
+
+use fs;
+-------------------------------------------------------------------------------------------------------------------------
+/*
+Write a query to display Products priced between 200 and 700:
+
+Sample Output:
+
+| ProductID | Name       | Price |
+|-----------|------------|-------|
+| 102       | Smartphone | 600   |
+
+*/
+use fs;
+-------------------------------------------------------------------------------------------------------------------------
 
